@@ -1,0 +1,143 @@
+---
+title: "Project 1 Revised"
+output: html_document
+date: "2022-10-28"
+---
+
+##Importing data 
+```{r, include = FALSE}
+attacks <- read.csv("attacks.csv")
+```
+##Libraries
+```{r, include = TRUE}
+library(tidyr)
+library(janitor)
+library(readxl)
+library(ggplot2)
+library(stringr)
+```
+##Cleaning data 
+```{r, include = FALSE}
+
+attacks1 <- attacks[,-23:-24]
+sharkattacks <- clean_names(attacks1)
+remove_empty(sharkattacks, 
+             which=c("rows","cols"))
+
+#function for coercing data into functions
+sharkfactor <- function(colname){
+return(as.factor(colname)) 
+}            
+
+#make this a function for column that we want to use in the data frame
+for(j in 1:length(sharkattacks$sex)){
+  sharkattacks$sex[j] <-str_trim(sharkattacks$sex[j], side = "both")
+}
+
+#
+sharkstrim <- function(variable){
+for(j in 1:length(variable)){
+  variable[j] <-str_trim(variable[j], side = "both")
+  }
+}
+
+#testing sharkstrim function 
+sharkstrim(sharkattacks$sex)
+sharkstrim(sharkattacks$country)
+
+
+summary(factor(sharkattacks$country))
+
+
+#Get rid of - later possible 
+sharkfactor(sharkattacks$country)
+sharkattacks$country <- as.factor(sharkattacks$country)
+sharkattacks$area <- as.factor(sharkattacks$area)
+sharkattacks$type <- as.factor(sharkattacks$type)
+sharkattacks$type <- sharkattacks$type == "Provoked" 
+sharkattacks$year <- as.numeric(sharkattacks$year)
+
+
+#Subset data for males vs females
+summary(factor(sharkattacks$sex))
+victimsex <- subset(sharkattacks, sex == "M" | sex =="F")
+summary(factor(victimsex$sex))
+
+summary(factor(victimsex$fatal_y_n))
+
+```
+##First plot 
+```{r}
+number <- 1:150
+ggplot(victimsex, (aes(x = year))) +
+  geom_bar(aes(fill = factor(sex))) + 
+  xlim(1900, 2018) + 
+  xlab("Year") + 
+  ylab("Number of Attacks")+
+  theme_minimal()+
+  theme(axis.text.x=element_text(size=15))+
+  ggtitle("Recorded Shark Attacks 1900-2018")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(plot.title = element_text(size=22))+
+  geom_hline(yintercept=50, 
+             linetype="dashed", 
+             color = "black",
+             size=1)
+```
+##Second Plot
+```{r}
+ggplot(sharkattacks, aes(year, fill=type))+
+  geom_bar(position = "fill")+
+  xlim(1900,2018)+
+  xlab("Year")+
+  ylab("Ratio")+
+  theme_minimal()+
+  theme(legend.title = element_blank())+
+  scale_fill_manual(values=c("slategray1", "midnightblue"), labels=c("Unprovoked", "Provoked"))+
+  theme(axis.text.x=element_text(size=15))+
+  ggtitle("Ratio of Unprovoked vs. Provoked Shark Attacks from 1900-2018")+
+  theme(axis.text = element_text(size=12), axis.title=element_text(size=14,face="bold"))+
+  theme(plot.title = element_text(size=16))
+  
+
+```
+
+
+##Bonus Plot (Will possibly fix later for next project)
+```{r}
+ggplot(sharkattacks,
+  (aes(x= year, y = type[TRUE], fill = type)))+
+  geom_violin()+
+  xlim(1900, 2018)+
+  xlab("Year") +
+  ylab("Provoked    vs.    Unprovoked") +
+  theme_minimal()+
+  theme(axis.text.y = element_blank())+ 
+  theme(axis.text.x=element_text(size=15))+
+  ggtitle("Frequency of Unprovoked vs. Provoked Shark Attacks from 1900-2018")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(plot.title = element_text(size=16))+
+  scale_fill_manual(values = c("blue", "#C77CFF"))+
+  theme(legend.position="none")+ 
+  annotate("text", x=1962,
+           y = TRUE, 
+           label= "Unprovoked attacks occur when a human does not purposefully interact with a shark",
+           col = "white") +
+  annotate("text", x=1960,
+           y = FALSE, 
+           label= "Provoked attacks occur when a human purposefully interacts with a shark",
+           col = "white") 
+
+
+```
+References:
+https://r-graphics.org/recipe-legend-label-text
+http://www.sthda.com/english/wiki/ggplot2-add-straight-lines-to-a-plot-horizontal-vertical-and-regression-lines
+https://r-charts.com/distribution/violin-plot-group-ggplot2/
+https://www.statology.org/add-text-to-ggplot/#:~:text=You%20can%20use%20the%20annotate,text%20to%20plots%20in%20ggplot2.&text=where%3A,the%20text%20should%20be%20placed.
+http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually
+
+Make another visualization with #of fatalaties on y axis over time, comparing by sex 
+
