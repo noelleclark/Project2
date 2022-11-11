@@ -14,27 +14,63 @@ library(tidyr)
 library(janitor)
 library(readxl)
 library(ggplot2)
+library(stringr)
 ```
 ##Cleaning data 
 ```{r, include = FALSE}
+
 attacks1 <- attacks[,-23:-24]
 sharkattacks <- clean_names(attacks1)
 remove_empty(sharkattacks, 
              which=c("rows","cols"))
 
+#function for coercing data into functions
+sharkfactor <- function(colname){
+return(as.factor(colname)) 
+}            
+
+#make this a function for column that we want to use in the data frame
+for(j in 1:length(sharkattacks$sex)){
+  sharkattacks$sex[j] <-str_trim(sharkattacks$sex[j], side = "both")
+}
+
+#
+sharkstrim <- function(variable){
+for(j in 1:length(variable)){
+  variable[j] <-str_trim(variable[j], side = "both")
+  }
+}
+
+#testing sharkstrim function 
+sharkstrim(sharkattacks$sex)
+sharkstrim(sharkattacks$country)
+
+
+summary(factor(sharkattacks$country))
+
+
+#Get rid of - later possible 
+sharkfactor(sharkattacks$country)
 sharkattacks$country <- as.factor(sharkattacks$country)
 sharkattacks$area <- as.factor(sharkattacks$area)
-sharkattacks$sex <- as.factor(sharkattacks$sex == "F")
 sharkattacks$type <- as.factor(sharkattacks$type)
 sharkattacks$type <- sharkattacks$type == "Provoked" 
 sharkattacks$year <- as.numeric(sharkattacks$year)
+
+
+#Subset data for males vs females
+summary(factor(sharkattacks$sex))
+victimsex <- subset(sharkattacks, sex == "M" | sex =="F")
+summary(factor(victimsex$sex))
+
+summary(factor(victimsex$fatal_y_n))
 
 ```
 ##First plot 
 ```{r}
 number <- 1:150
-ggplot(sharkattacks, (aes(x = year))) +
-  geom_bar(fill = "blue") + 
+ggplot(victimsex, (aes(x = year))) +
+  geom_bar(aes(fill = factor(sex))) + 
   xlim(1900, 2018) + 
   xlab("Year") + 
   ylab("Number of Attacks")+
@@ -48,9 +84,6 @@ ggplot(sharkattacks, (aes(x = year))) +
              linetype="dashed", 
              color = "black",
              size=1)
-  
-
-  
 ```
 ##Second Plot
 ```{r}
@@ -64,7 +97,7 @@ ggplot(sharkattacks, aes(year, fill=type))+
   scale_fill_manual(values=c("slategray1", "midnightblue"), labels=c("Unprovoked", "Provoked"))+
   theme(axis.text.x=element_text(size=15))+
   ggtitle("Ratio of Unprovoked vs. Provoked Shark Attacks from 1900-2018")+
-  theme(axis.text=element_text(size=12), axis.title=element_text(size=14,face="bold"))+
+  theme(axis.text = element_text(size=12), axis.title=element_text(size=14,face="bold"))+
   theme(plot.title = element_text(size=16))
   
 
@@ -105,3 +138,6 @@ http://www.sthda.com/english/wiki/ggplot2-add-straight-lines-to-a-plot-horizonta
 https://r-charts.com/distribution/violin-plot-group-ggplot2/
 https://www.statology.org/add-text-to-ggplot/#:~:text=You%20can%20use%20the%20annotate,text%20to%20plots%20in%20ggplot2.&text=where%3A,the%20text%20should%20be%20placed.
 http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually
+
+Make another visualization with #of fatalaties on y axis over time, comparing by sex 
+
