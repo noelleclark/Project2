@@ -28,7 +28,7 @@ sharkfactor <- function(colname){
 return(as.factor(colname)) 
 }            
 
-#make this a function for column that we want to use in the data frame
+#function for column that we want to use in the data frame
 for(j in 1:length(sharkattacks$sex)){
   sharkattacks$sex[j] <-str_trim(sharkattacks$sex[j], side = "both")
 }
@@ -65,6 +65,7 @@ ggplot(sharkattacks_data, (aes(x = year))) +
   xlab("Year") + 
   ylab("Number of Attacks")+
   theme_minimal()+
+  scale_fill_manual("Sex", values = c("M"="blue", "F"="pink"))+
   theme(axis.text.x=element_text(size=15))+
   ggtitle("Recorded Shark Attacks 1900-2018")+
   theme(axis.text=element_text(size=12),
@@ -85,6 +86,8 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
   ylab("Number of Fatal Attacks")+   
   theme(axis.text.x=element_text(size=15))+
   ggtitle("Fatal Shark Attacks 1900-2018")+
+  theme_minimal()+
+  scale_fill_manual("Sex", values = c("M"="blue", "F"="pink"))+
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"))+
   theme(plot.title = element_text(size=22))+
