@@ -50,8 +50,14 @@ sharkstrim(sharkattacks$fatal_y_n)
 summary(factor(sharkattacks$sex))
 sharkattacks_data <- subset(sharkattacks, sex == "M" | sex =="F")
 summary(factor(sharkattacks_data$sex))
+<<<<<<< HEAD:Project2.Rmd
 # sharkattacks_fatality <- subset(sharkattacks, fatal_y_n == "Y")
 # summary(factor(sharkattacks_fatality$fatal_y_n))
+=======
+
+sharkattacks_data <- subset(sharkattacks, fatal_y_n == "Y" | fatal_y_n == "N")
+summary(factor(sharkattacks_data$fatal_y_n))
+>>>>>>> 79e1ea7e1a4b0573841641b9aa9f308ce38c5dd3:Project 1 Revised .Rmd
 
 ```
 ##First plot 
@@ -71,6 +77,7 @@ ggplot(sharkattacks_data, (aes(x = year))) +
              linetype="dashed", 
              color = "black",
              size=1)
+<<<<<<< HEAD:Project2.Rmd
 
 ```
 ```{r}
@@ -92,6 +99,10 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
 ```
 
 
+=======
+```
+
+>>>>>>> 79e1ea7e1a4b0573841641b9aa9f308ce38c5dd3:Project 1 Revised .Rmd
 References:
 https://r-graphics.org/recipe-legend-label-text
 http://www.sthda.com/english/wiki/ggplot2-add-straight-lines-to-a-plot-horizontal-vertical-and-regression-lines
