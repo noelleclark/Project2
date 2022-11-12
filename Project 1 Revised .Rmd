@@ -77,8 +77,16 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
   geom_bar(aes(fill = factor(sex, levels = c("M", "F")))) + 
   xlim(1900, 2018) + 
   xlab("Year") + 
-  ylab("Number of Fatal Attacks")
- ]
+  ylab("Number of Fatal Attacks")+   
+  theme(axis.text.x=element_text(size=15))+
+  ggtitle("Fatal Shark Attacks 1900-2018")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(plot.title = element_text(size=22))+
+  geom_hline(yintercept=10, 
+             linetype="dashed", 
+             color = "black",
+             size=1)
 
 ```
 
