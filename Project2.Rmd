@@ -50,14 +50,11 @@ sharkstrim(sharkattacks$fatal_y_n)
 summary(factor(sharkattacks$sex))
 sharkattacks_data <- subset(sharkattacks, sex == "M" | sex =="F")
 summary(factor(sharkattacks_data$sex))
-<<<<<<< HEAD:Project2.Rmd
+
 # sharkattacks_fatality <- subset(sharkattacks, fatal_y_n == "Y")
 # summary(factor(sharkattacks_fatality$fatal_y_n))
-=======
 
-sharkattacks_data <- subset(sharkattacks, fatal_y_n == "Y" | fatal_y_n == "N")
-summary(factor(sharkattacks_data$fatal_y_n))
->>>>>>> 79e1ea7e1a4b0573841641b9aa9f308ce38c5dd3:Project 1 Revised .Rmd
+
 
 ```
 ##First plot 
@@ -77,9 +74,9 @@ ggplot(sharkattacks_data, (aes(x = year))) +
              linetype="dashed", 
              color = "black",
              size=1)
-<<<<<<< HEAD:Project2.Rmd
-
 ```
+
+
 ```{r}
 ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year)) +
   geom_bar(aes(fill = factor(sex, levels = c("M", "F")))) + 
@@ -99,16 +96,4 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
 ```
 
 
-=======
-```
-
->>>>>>> 79e1ea7e1a4b0573841641b9aa9f308ce38c5dd3:Project 1 Revised .Rmd
-References:
-https://r-graphics.org/recipe-legend-label-text
-http://www.sthda.com/english/wiki/ggplot2-add-straight-lines-to-a-plot-horizontal-vertical-and-regression-lines
-https://r-charts.com/distribution/violin-plot-group-ggplot2/
-https://www.statology.org/add-text-to-ggplot/#:~:text=You%20can%20use%20the%20annotate,text%20to%20plots%20in%20ggplot2.&text=where%3A,the%20text%20should%20be%20placed.
-http://www.sthda.com/english/wiki/ggplot2-colors-how-to-change-colors-automatically-and-manually
-
-Make another visualization with #of fatalaties on y axis over time, comparing by sex 
 
