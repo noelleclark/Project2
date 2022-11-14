@@ -23,17 +23,6 @@ sharkattacks <- clean_names(sharkattacks)
 remove_empty(sharkattacks, 
              which=c("rows","cols"))
 
-
-sharkattacks_data <- data.frame()
-
-for(j in 1:length(colnames(sharkattacks))){
-  if(colnames(sharkattacks)[j] == "sex" |
-     colnames(sharkattacks)[j] == "date" | 
-     colnames(sharkattacks)[j] == "fatal_y_n"){
-     sharkattacks_data[colnames(sharkattacks)[j]] <- subset(sharkattacks[j])
-  }
-}
-
 #Loop within function to trim 
 sharkstrim <- function(variable){
 for(j in 1:length(variable)){
@@ -44,6 +33,17 @@ for(j in 1:length(variable)){
 #using sharkstrim function 
 sharkstrim(sharkattacks$sex)
 sharkstrim(sharkattacks$fatal_y_n)
+
+
+sharkattacks_data <- data.frame()
+
+for(j in 1:length(colnames(sharkattacks))){
+  if(colnames(sharkattacks)[j] == "sex" |
+     colnames(sharkattacks)[j] == "date" | 
+     colnames(sharkattacks)[j] == "fatal_y_n"){
+     sharkattacks_data[colnames(sharkattacks)[j]] <- subset(sharkattacks[j])
+  }
+}
 
 #Subset and cleaning data for males vs females 
 summary(factor(sharkattacks$sex))
