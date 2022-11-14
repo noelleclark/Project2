@@ -1,5 +1,5 @@
 ---
-title: "Project 1 Revised"
+title: "Project 2"
 output: html_document
 date: "2022-10-28"
 ---
@@ -49,7 +49,6 @@ for(j in 1:length(colnames(sharkattacks))){
 summary(factor(sharkattacks$sex))
 sharkattacks_data <- subset(sharkattacks, sex == "M" | sex =="F")
 summary(factor(sharkattacks_data$sex))
-
 
 ```
 ##First plot 
