@@ -17,7 +17,7 @@ library(stringr)
 ```
 ##Cleaning data 
 ```{r, include = FALSE}
-
+#ggsave for saving images of graphs
 sharkattacks <- attacks[,-23:-24]
 sharkattacks <- clean_names(sharkattacks)
 remove_empty(sharkattacks, 
@@ -53,7 +53,7 @@ summary(factor(sharkattacks_data$sex))
 ```
 ##First plot 
 ```{r}
-ggplot(sharkattacks_data, (aes(x = year))) +
+first.plot<- ggplot(sharkattacks_data, (aes(x = year))) +
   geom_bar(aes(fill = factor(sex, levels = c("M", "F")))) + 
   xlim(1900, 2018) + 
   xlab("Year") + 
@@ -69,6 +69,9 @@ ggplot(sharkattacks_data, (aes(x = year))) +
              linetype="dashed", 
              color = "black",
              size=1)
+
+ggsave("sharkattacks_data1.png", bg="white")
+
 ```
 
 
@@ -89,6 +92,7 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
              linetype="dashed", 
              color = "black",
              size=1)
+ggsave("sharkattacks_data2.png", bg="white")
 
 ```
 
