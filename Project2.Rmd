@@ -23,37 +23,32 @@ sharkattacks <- clean_names(sharkattacks)
 remove_empty(sharkattacks, 
              which=c("rows","cols"))
 
-#function for coercing data into functions
-sharkfactor <- function(colname){
-return(as.factor(colname)) 
-}            
 
-#function for column that we want to use in the data frame
-for(j in 1:length(sharkattacks$sex)){
-  sharkattacks$sex[j] <-str_trim(sharkattacks$sex[j], side = "both")
+sharkattacks_data <- data.frame()
+
+for(j in 1:length(colnames(sharkattacks))){
+  if(colnames(sharkattacks)[j] == "sex" |
+     colnames(sharkattacks)[j] == "date" | 
+     colnames(sharkattacks)[j] == "fatal_y_n"){
+     sharkattacks_data[colnames(sharkattacks)[j]] <- subset(sharkattacks[j])
+  }
 }
 
-#function to trim 
+#Loop within function to trim 
 sharkstrim <- function(variable){
 for(j in 1:length(variable)){
   variable[j] <-str_trim(variable[j], side = "both")
   }
 }
 
-#testing sharkstrim function 
+#using sharkstrim function 
 sharkstrim(sharkattacks$sex)
-sharkstrim(sharkattacks$country)
 sharkstrim(sharkattacks$fatal_y_n)
-
 
 #Subset and cleaning data for males vs females 
 summary(factor(sharkattacks$sex))
 sharkattacks_data <- subset(sharkattacks, sex == "M" | sex =="F")
 summary(factor(sharkattacks_data$sex))
-
-# sharkattacks_fatality <- subset(sharkattacks, fatal_y_n == "Y")
-# summary(factor(sharkattacks_fatality$fatal_y_n))
-
 
 
 ```
