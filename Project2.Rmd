@@ -72,7 +72,6 @@ first.plot<- ggplot(sharkattacks_data, (aes(x = year))) +
              linetype="dashed", 
              color = "black",
              size=1)
-
 ggsave("sharkattacks_data1.png", bg="white")
 
 ```
