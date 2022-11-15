@@ -6,7 +6,7 @@ date: "2022-10-28"
 
 ##Importing data 
 ```{r, include = FALSE}
-attacks <- read.csv("attacks.csv")
+attacks <- read.csv("data/attacks.csv")
 ```
 ##Libraries
 ```{r, include = TRUE}
@@ -23,7 +23,7 @@ sharkattacks <- clean_names(sharkattacks)
 remove_empty(sharkattacks, 
              which=c("rows","cols"))
 
-#Loop within function to trim 
+#Loop within function to trim the extra spaces from the data 
 sharkstrim <- function(variable){
 for(j in 1:length(variable)){
   variable[j] <-str_trim(variable[j], side = "both")
@@ -35,20 +35,23 @@ sharkstrim(sharkattacks$sex)
 sharkstrim(sharkattacks$fatal_y_n)
 
 
-sharkattacks_data <- data.frame()
 
 for(j in 1:length(colnames(sharkattacks))){
   if(colnames(sharkattacks)[j] == "sex" |
-     colnames(sharkattacks)[j] == "date" | 
+     colnames(sharkattacks)[j] == "year" | 
      colnames(sharkattacks)[j] == "fatal_y_n"){
-     sharkattacks_data[colnames(sharkattacks)[j]] <- subset(sharkattacks[j])
+    sharkattacks_data[colnames(sharkattacks)[j]] <- sharkattacks[,colnames(sharkattacks[,j])]
   }
 }
 
+
 #Subset and cleaning data for males vs females 
 summary(factor(sharkattacks$sex))
-sharkattacks_data <- subset(sharkattacks, sex == "M" | sex =="F")
+sharkattacks_data <- subset(sharkattacks, sex == "M" | sex == "F")
 summary(factor(sharkattacks_data$sex))
+
+
+summary(factor(sharkattacks_data$fatal_y_n))
 
 ```
 ##First plot 
