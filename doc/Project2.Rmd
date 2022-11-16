@@ -6,10 +6,12 @@ date: "2022-10-28"
 
 ##Importing data 
 ```{r, include = FALSE}
-attacks <- read.csv("data/attacks.csv")
+attacks <- read.csv("../data/attacks.csv")
 ```
 ##Libraries
 ```{r, include = TRUE}
+
+
 library(tidyr)
 library(janitor)
 library(ggplot2)
