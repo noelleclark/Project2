@@ -68,7 +68,6 @@ xlim(a, b) +
 
 a <- firstplot(1800, 2018, "Total Shark Attacks from 1800-2018")
 b <- firstplot(2000, 2018, "Recent Shark Attacks from 2000-2018")
-
 a+b
 
 ggsave("sharkattacks_data1.png", bg="white", path = "results")
