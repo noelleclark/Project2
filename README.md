@@ -29,7 +29,7 @@ Steps:
 
 2. Open the "doc" folder and then open "Project2.Rmd"
 
-3. Uncomment and install packages if they are not already downloaded and load the packages after in toyour library (run the code underneath the “Libraries” subtitle)
+3. Un-comment and install packages if they are not already downloaded and load the packages after into your library (run the code underneath the “Libraries” subtitle)
 
 4. Install patchwork package before downloading the patchwork library if not already installed. 
 
