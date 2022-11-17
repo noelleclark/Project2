@@ -72,7 +72,7 @@ a <- firstplot(1800, 2018, "Total Shark Attacks from 1800-2018")
 b <- firstplot(2000, 2018, "Recent Shark Attacks from 2000-2018")
 a+b
 
-ggsave("sharkattacks_data1.png", bg="white", path = "results")
+ggsave("sharkattacks_data1.png", bg="white", path = "../results")
 
 ```
 
@@ -94,7 +94,7 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
              linetype="dashed", 
              color = "black",
              size=1)
-ggsave("sharkattacks_data2.png", bg="white", path = "results")
+ggsave("sharkattacks_data2.png", bg="white", path = "../results")
 
 ```
 
