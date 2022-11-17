@@ -31,7 +31,7 @@ sharkattacks <- clean_names(sharkattacks) # function used to clean names
 remove_empty(sharkattacks, 
              which=c("rows","cols")) # function used to remove empty columns and rows 
 
-# Below from lines 35-39 is a loop within function to trim the extra spaces after character data from # the data set. Inputs are a data set with a column specified with a "$" and outputs are cleaned rows # within the columns that do not have unecessary space.
+# Below from lines 35-39 is a loop within function to trim the extra spaces after character data from # the data set. Inputs are a data set with a column specified with a "$" and outputs are cleaned rows # within the columns that do not have unnecessary space.
 sharkstrim <- function(variable){
 for(j in 1:length(variable)){
   variable[j] <-str_trim(variable[j], side = "both")
@@ -44,7 +44,7 @@ sharkstrim(sharkattacks$sex)
 sharkstrim(sharkattacks$fatal_y_n)
 
 
-#Subset and cleaning data for sex colum 
+#Subset and cleaning data for sex column 
 summary(factor(sharkattacks$sex)) #used to check the factor levels before subsetting 
 sharkattacks_data <- subset(sharkattacks, sex == "M" | sex == "F")
 summary(factor(sharkattacks_data$sex))#used to check the factor levels after subsetting 
@@ -53,7 +53,8 @@ summary(factor(sharkattacks_data$sex))#used to check the factor levels after sub
 ```
 ##First plot 
 ```{r}
-# This is a function from lines 57-75 which outputs a plot of all of the shark attacks by sex of the vixtim. This   # unction has arguments so that the x axis limits and title of the graph can be changed. The inputs  # # are:
+# This is a function from lines 57-75 which outputs a plot of all of the shark attacks by sex of the victim. This   
+# function has arguments so that the x axis limits and title of the graph can be changed. The inputs  # # are:
 #        a -lower bound of axis (can be a number from 1800-1900)
 #        b -upper bound of x axis (can be a number from 1800-1900)
 #        title- title of visualization (must be in quotations)
@@ -79,10 +80,10 @@ xlim(a, b) +
              size=1)
 }
 # Patchwork package was used below in order to stitch two visualizations with different x-axis limits # together
-
 a <- firstplot(1800, 2018, "Total Shark Attacks from 1800-2018")
 b <- firstplot(2000, 2018, "Recent Shark Attacks from 2000-2018")
 a+b
+
 # Saving the png of the plots that were stitched together. This plot will be found in the results 
 # folder
 ggsave("sharkattacks_data1.png", bg="white", path = "../results")
@@ -108,6 +109,7 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
              linetype="dashed", 
              color = "black",
              size=1)
+
 #Saves the plot from the code above. This plot will be found in the results folder
 ggsave("sharkattacks_data2.png", bg="white", path = "../results")
 
