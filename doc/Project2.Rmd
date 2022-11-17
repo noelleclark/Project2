@@ -10,7 +10,12 @@ attacks <- read.csv("../data/attacks.csv")
 ```
 ##Libraries
 ```{r, include = TRUE}
-
+# Install packages below if you have never installed them before
+# install.packages(tidyr)
+# install.packages(janitor)
+# install.packages(ggplot2)
+# install.packages(stringr)
+# install.packages(patchwork)
 
 library(tidyr)
 library(janitor)
@@ -20,34 +25,40 @@ library(patchwork)
 ```
 ##Cleaning data 
 ```{r, include = FALSE}
-#Cleaning data
-sharkattacks <- attacks[,-23:-24]
-sharkattacks <- clean_names(sharkattacks)
+# Cleaning data
+sharkattacks <- attacks[,-23:-24] # removing empty columns
+sharkattacks <- clean_names(sharkattacks) # function used to clean names 
 remove_empty(sharkattacks, 
-             which=c("rows","cols"))
+             which=c("rows","cols")) # function used to remove empty columns and rows 
 
-#Loop within function to trim the extra spaces from the data 
+# Below from lines 35-39 is a loop within function to trim the extra spaces after character data from # the data set. Inputs are a data set with a column specified with a "$" and outputs are cleaned rows # within the columns that do not have unecessary space.
 sharkstrim <- function(variable){
 for(j in 1:length(variable)){
   variable[j] <-str_trim(variable[j], side = "both")
   }
 }
 
-#using sharkstrim function 
+# using sharkstrim function (the function described above on the data set to remove spaces) for      
+# specific columns sex and fatal_y_n
 sharkstrim(sharkattacks$sex)
 sharkstrim(sharkattacks$fatal_y_n)
 
 
-
-#Subset and cleaning data for males vs females 
-summary(factor(sharkattacks$sex))
+#Subset and cleaning data for sex colum 
+summary(factor(sharkattacks$sex)) #used to check the factor levels before subsetting 
 sharkattacks_data <- subset(sharkattacks, sex == "M" | sex == "F")
-summary(factor(sharkattacks_data$sex))
-summary(factor(sharkattacks_data$fatal_y_n))
+summary(factor(sharkattacks_data$sex))#used to check the factor levels after subsetting 
+
 
 ```
 ##First plot 
 ```{r}
+# This is a function from lines 57-75 which outputs a plot of all of the shark attacks by sex of the vixtim. This   # unction has arguments so that the x axis limits and title of the graph can be changed. The inputs  # # are:
+#        a -lower bound of axis (can be a number from 1800-1900)
+#        b -upper bound of x axis (can be a number from 1800-1900)
+#        title- title of visualization (must be in quotations)
+# The outputs are a graph of all of the shark attacks between specified time and the frequency of the 
+# that sex made up the attacks.
 firstplot <- function(a, b, title) 
   {
 ggplot(sharkattacks_data, (aes(x = year))) +
@@ -67,17 +78,20 @@ xlim(a, b) +
              color = "black",
              size=1)
 }
+# Patchwork package was used below in order to stitch two visualizations with different x-axis limits # together
 
 a <- firstplot(1800, 2018, "Total Shark Attacks from 1800-2018")
 b <- firstplot(2000, 2018, "Recent Shark Attacks from 2000-2018")
 a+b
-
+# Saving the png of the plots that were stitched together. This plot will be found in the results 
+# folder
 ggsave("sharkattacks_data1.png", bg="white", path = "../results")
 
 ```
 
 
 ```{r}
+#Second plot code. Visualizes provoked attacks and frequency of sex of the victim from years 1900-2018
 ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year)) +
   geom_bar(aes(fill = factor(sex, levels = c("M", "F")))) + 
   xlim(1900, 2018) + 
@@ -94,6 +108,7 @@ ggplot(sharkattacks_data[sharkattacks_data$fatal_y_n %in% "Y", ], aes(x = year))
              linetype="dashed", 
              color = "black",
              size=1)
+#Saves the plot from the code above. This plot will be found in the results folder
 ggsave("sharkattacks_data2.png", bg="white", path = "../results")
 
 ```
